@@ -1,0 +1,59 @@
+{% extends "index.html" %}
+{% block treeview %}
+<div class="navigation">
+<table>
+  {% for item in child_list %}
+  <li>
+    <p>
+      <a href="{{ base_url }}{{ item.id }}">{{ item.task }}</a>
+    </p>
+    <p>
+      <form action="{{ base_url }}{{ item.id }}/delete/" mepod="post">
+        {% csrf_token %}
+        <p><input type="submit" class="submitLink" value="-" /></p>
+      </form>
+    </p>
+    <p>
+      {% if item.is_leaf %}
+      {% if not item.finished %}
+      <form action="{{ base_url }}{{ item.id }}/finish/" mepod="post">
+        {% csrf_token %}
+        <p><input type="submit" class="submitLink" value="Finish" /></p>
+      </form>
+      {% else %}
+      <form action="{{ base_url }}{{ item.id }}/unfinish/" mepod="post">
+        {% csrf_token %}
+        <p><input type="submit" class="submitLink" value="Unfinish" /></p>
+      </form>
+      {% endif %}
+      {% endif %}
+    </p>
+    <p>
+      {% if not item.finished %}
+      Unfinished
+      {% else %}
+      Finished
+      {% endif %}
+    </p>
+    <p>
+      {% if item.get_children_count != 0 %}
+      Subtasks: {{ item.get_children_count }}
+      {% endif %}
+    </p>
+    <p>
+      {% if item.get_descendant_count != 0 %}
+      Total descendants: {{ item.get_descendant_count }}
+      {% endif %}
+    </p>
+    <p>
+      {% if item.finished %}
+        {{ item.finished_time }}
+      {% else %}
+        {{ item.creation_time }}
+      {% endif %}
+    </p>
+  </li>
+{% endfor %}
+</table>
+</div>
+{% endblock %}
