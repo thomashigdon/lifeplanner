@@ -1,5 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -16,29 +15,41 @@
     </style>
     <title>Lifeplanner</title>
   </head>
-<body>
-<p>
-<a href="{{ base_url }}{{ parent.id }}">Up</a> <a href="{{ base_url }}">Root</a>
-</p>
-<form action="{{ base_url }}{{ current.id }}/filter/" id="filter" method="post">
-  {% csrf_token %}
-  <p><label>Filter:</label>
-  <select name="filter_name">
-          <option value="" selected="selected">All</option>
-          <option value="finished" >Finished</option>
-          <option value="unfinished">Unfinished</option>
-        </select>
-        <input type="submit" class="submit" value="filter" /></p>
+  <body>
+    <p>
+    <a href="{{ base_url }}{{ parent.id }}">Up</a> <a href="{{ base_url }}">Root</a>
+    </p>
+    <h1>{{ current.task }}</h1>
+
+    <form action="{{ base_url }}{{ current.id }}/add/" method="post">
+      {% csrf_token %}
+      <p>New subtask: <input type="text" name="task" /></p>
     </form>
 
-<h1>{{ current.task }}</h1>
+    <form action="{{ base_url }}{{ current.id }}/filter/" id="filter" method="post">
+      {% csrf_token %}
+      <p><label>Filter:</label>
+      <select name="filter_name">
+        <option value=""
+        {% if request.session.filter_name = "" %}selected="selected"{% endif %}
+        >
+        All
+        </option>
+        <option value="finished"
+        {% if request.session.filter_name = "finished" %}selected="selected"{% endif %}
+        >
+        Finished
+        </option>
+        <option value="unfinished"
+        {% if request.session.filter_name = "unfinished" %}selected="selected"{% endif %}
+        >
+        Unfinished
+        </option>
+      </select>
+      <input type="submit" class="submit" value="filter" /></p>
+    </form>
 
-<form action="{{ base_url }}{{ current.id }}/add/" method="post">
-  {% csrf_token %}
-  <p>New subtask: <input type="text" name="task" /></p>
-</form>
+    {% block treeview %}treeview goes here{% endblock %}
 
-{% block treeview %}treeview goes here{% endblock %}
-
-</body>
+  </body>
 </html>

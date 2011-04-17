@@ -33,7 +33,8 @@ def treeview(request, node_id=1):
                               {'current' : current_node,
                                'parent' : parent_node,
                                'child_list' : child_list,
-                               'base_url' : base_url,},
+                               'base_url' : base_url,
+                               'request' : request, },
                               context_instance=RequestContext(request))
 
 def filter(request, node_id):
