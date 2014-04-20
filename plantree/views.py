@@ -28,7 +28,7 @@ def treeview(request, node_id=1):
     else:
         filter_func = {}
 
-    child_list = current_node.get_children(filter=filter_func)
+    child_list = current_node.get_children(filter=filter_func).order_by('creation_time', 'finished')
     return render_to_response('treeview.html',
                               {'current' : current_node,
                                'parent' : parent_node,

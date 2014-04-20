@@ -5,7 +5,7 @@ from treebeard.mp_tree import MP_Node
 class Category(MP_Node):
     task = models.CharField(max_length=255)
     finished = models.BooleanField(default=False)
-    creation_time = models.DateTimeField(default=None, auto_now_add=True)
+    creation_time = models.DateTimeField(auto_now_add=True,)
     finished_time = models.DateTimeField(default=None)
 
     ordering = ['finished', 'task' ]
